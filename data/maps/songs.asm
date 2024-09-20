@@ -248,4 +248,5 @@ MapSongBanks::
 	db MUSIC_GYM, BANK(Music_Gym) ; LORELEIS_ROOM
 	db MUSIC_DUNGEON1, BANK(Music_Dungeon1) ; BRUNOS_ROOM
 	db MUSIC_POKEMON_TOWER, BANK(Music_PokemonTower) ; AGATHAS_ROOM
+	db MUSIC_SILPH_CO, BANK(Music_SilphCo) ; Celadon Trader House
 	assert_table_length NUM_MAPS

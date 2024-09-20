@@ -150,7 +150,7 @@ GainExperience:
 	call PrintText
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	call AnimateEXPBar
 ELSE
 	call LoadMonData
@@ -164,7 +164,7 @@ ENDC
 	ld a, [hl] ; current level
 	cp d
 	jp z, .nextMon ; if level didn't change, go to next mon
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	call KeepEXPBarFull
 ELSE
 	ld a, [wCurEnemyLVL]
@@ -252,7 +252,7 @@ ENDC
 	call PrintText
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	call AnimateEXPBarAgain
 ELSE
 	call LoadMonData

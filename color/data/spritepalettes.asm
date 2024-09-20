@@ -24,10 +24,10 @@ SpritePalettes: ; Taken from pokemon GSC.
 	RGB 15,10,3
 	RGB 0,0,0
 
-; PAL_OW_PURPLE
+; PAL_OW_HERO
 	RGB 27,31,27
 	RGB 31,19,10
-	RGB 18,4,18
+	RGB 31,7,1
 	RGB 0,0,0
 
 ; PAL_OW_EMOJI
@@ -74,10 +74,10 @@ SpritePalettesNite: ; Taken from pokemon GSC.
 	RGB 15,10,3
 	RGB 0,0,0
 
-; PAL_OW_PURPLE
+; PAL_OW_HERO
 	RGB 27,31,27
 	RGB 31,19,10
-	RGB 18,4,18
+	RGB 31,7,1
 	RGB 0,0,0
 
 ; PAL_OW_EMOJI
@@ -124,7 +124,7 @@ SpritePalettesPokecenter: ; Taken from pokemon GSC.
 	RGB 15,10,3
 	RGB 0,0,0
 
-; Heal Machine pokeballs and screen
+; PAL_OW_HERO
 	RGB 27,31,27
 	RGB 31,19,10
 	RGB 31,7,1
@@ -136,11 +136,11 @@ SpritePalettesPokecenter: ; Taken from pokemon GSC.
 	RGB 13,13,13
 	RGB 0,0,0
 
-; PAL_OW_TREE
-	RGB 22,31,10
-	RGB 12,25,1
-	RGB 5,14,0
-	RGB 7,7,7
+; Heal Machine pokeballs and screen
+	RGB 27,31,27
+	RGB 31,19,10
+	RGB 31,7,1
+	RGB 0,0,0
 
 ; PAL_OW_ROCK
 	RGB 27,31,27
@@ -190,6 +190,48 @@ AttackSpritePalettes:
 	RGB 16,0,20
 	RGB 12,0,13
 	RGB 0,0,0
+
+PartySpritePalettes:
+    ; GREY
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 16,16,16
+    RGB 0,0,0
+    ; RED
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 31,6,0
+    RGB 0,0,0
+    ; GREEN
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 2,19,3
+    RGB 0,0,0
+    ; BLUE
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 14,19,26
+    RGB 0,0,0
+    ; YELLOW
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 31,19,0
+    RGB 0,0,0
+    ; BROWN
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 20,14,8
+    RGB 0,0,0
+    ; PINK
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 30,13,22
+    RGB 0,0,0
+    ; PURPLE
+    RGB 31,31,31
+    RGB 31,25,13
+    RGB 20,13,28
+    RGB 0,0,0
 
 ; Not related to sprites, move this somewhere else?
 SlotPaletteMap:

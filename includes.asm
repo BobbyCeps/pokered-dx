@@ -1,4 +1,5 @@
 DEF GEN_2_GRAPHICS EQU 1
+DEF GEN_2_GRAPHICS_HUD EQU 0
 
 INCLUDE "macros/asserts.asm"
 INCLUDE "macros/const.asm"

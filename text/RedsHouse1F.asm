@@ -1,7 +1,7 @@
 _RedsHouse1FMomWakeUpText::
 	text "MERE: Bon."
-	line "Il arrive qu'un"
-	cont "jour le fils aimé"
+	line "Il arrive un jour"
+	cont "ou l'enfant chéri"
 	cont "quitte la maison."
 	cont "C'est la vie!"
 

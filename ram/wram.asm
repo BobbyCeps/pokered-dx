@@ -2046,7 +2046,14 @@ wRoute18Gate1FCurScript:: db
 	ds 78
 wGameProgressFlagsEnd::
 
-	ds 56
+wPlayerGender::
+	; $00 = male
+	; $01 = female
+	; $02 = enby
+	ds 1
+	
+; unused
+	ds 55
 
 wObtainedHiddenItemsFlags:: flag_array MAX_HIDDEN_ITEMS
 
@@ -2319,7 +2326,7 @@ wBoxMonNicksEnd::
 
 wBoxDataEnd::
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 wEXPBarPixelLength::  ds 1
 wEXPBarBaseEXP::      ds 3
 wEXPBarCurEXP::       ds 3

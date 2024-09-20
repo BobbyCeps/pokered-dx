@@ -200,3 +200,23 @@ _UsedCutText::
 	text " a tout"
 	line "coupé! Trop fort!"
 	prompt
+
+;trade evolve
+_WannaTrade4Text::
+	text "Je suis le TRADER!"
+	line "Je peut t'échanger"
+	para "ton propre #MON"
+	line "et te le rendre."
+	para "Tu veut essayer?"
+	done
+	
+_NoTrade4Text::
+	text "Ok, peut-etre la"
+	line "prochaine fois."
+	done
+	
+_Thanks4Text::
+	text "C'est terminé,"
+	line "j'espere t'avoir"
+	para "aidé !"
+	done

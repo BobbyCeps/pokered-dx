@@ -1875,3 +1875,8 @@ _TextIDErrorText::
 _ContCharText::
 	text "<_CONT>@"
 	text_end
+
+_BoyGirlText::
+	text "Mais qui"
+	line "est tu?"
+	done

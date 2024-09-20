@@ -273,5 +273,9 @@ IF GEN_2_GRAPHICS
 	const PAL_AGATHA        ; $E9
 	const PAL_LANCE         ; $EA
 	const PAL_HERO          ; $EB
+	const PAL_HERO_F
+	const PAL_HERO_XY
+	const PAL_OW_GREEN
+	const PAL_OW_YELLOW
 ENDC
 DEF NUM_SGB_PALS EQU const_value

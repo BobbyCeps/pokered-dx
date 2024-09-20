@@ -134,7 +134,7 @@ SetPal_Battle_Common:
 	ld e, 3
 	farcall LoadSGBPalette
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	; Player exp bar
 	ld d, PAL_EXP
 ELSE
@@ -239,6 +239,20 @@ FillBox:
 
 ; Load town map
 SetPal_TownMap:
+
+	 CALL_INDIRECT LoadOverworldSpritePalettes ; color menu icon sprite
+	 
+	ld a, [wPlayerGender] ;new code for OW custom palette 
+	and a
+	jr z, .continueSetPal
+	cp 1
+	lb de, PAL_OW_GREEN, 0
+	jr z, .gotpaltown
+	ld d, PAL_OW_YELLOW
+.gotpaltown
+	farcall LoadSGBPalette_Sprite
+.continueSetPal	
+	
 	ld a, 2
 	ldh [rSVBK], a
 
@@ -288,7 +302,7 @@ SetPal_StatusScreen:
 	ld e, 1
 	farcall LoadSGBPalette
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	ld d, PAL_EXP
 	ld e, 4
 	farcall LoadSGBPalette
@@ -334,7 +348,7 @@ ENDC
 	dec b
 	jr nz, .drawRow
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	; Player exp bar
 	ld hl, W2_TilesetPaletteMap + 11 + 5 * SCREEN_WIDTH
 	ld b, 8
@@ -624,13 +638,25 @@ SetPal_Overworld:
 	ld [hli], a
 
 	; Pokecenter uses OBP1 when healing pokemons; also cut animation
-	ld a, 1
+	ld a, 2 ;for custom ow pal
 	ld [W2_UseOBP1], a
 
 	CALL_INDIRECT LoadOverworldSpritePalettes
 
 	xor a
 	ldh [rSVBK], a
+
+	ld a, [wPlayerGender]
+	and a
+	jr z, .continueSetPalOw
+	cp 1 
+	lb de, PAL_OW_GREEN, 4
+	jr z, .gotpal
+	ld d, PAL_OW_YELLOW
+.gotpal
+	farcall LoadSGBPalette_Sprite
+.continueSetPalOw
+
 
 	CALL_INDIRECT LoadTilesetPalette
 
@@ -659,10 +685,13 @@ SetPal_Overworld:
 
 ; Open pokemon menu
 SetPal_PartyMenu:
+
+	 CALL_INDIRECT LoadPartyMenuSpritePalettes
+	
 	ld a, 2
 	ldh [rSVBK], a
 
-	CALL_INDIRECT LoadOverworldSpritePalettes
+;	CALL_INDIRECT LoadOverworldSpritePalettes
 
 	ld d, PAL_GREENBAR ; Filler for palette 0 (technically, green)
 	ld e, 0
@@ -849,7 +878,20 @@ SetPal_TrainerCard:
 
 	; Red's palette
 IF GEN_2_GRAPHICS
+	xor a ;palette gender
+	ldh [rSVBK], a
 	ld d, PAL_HERO
+	ld a, [wPlayerGender] 	; load gender
+	and a      				; check gender - and a is equivalent to `cp a, 0` (but faster)
+						; if a=0->gender=male, ergo jump to the vanilla part of the code
+	jr z, .ContinueLoadPaletteFront
+	cp 1					; check gender: if a=2->gender=enby, jump to the yellow subroutine, otherwise continue below
+	ld d, PAL_HERO_F
+    jr z, .ContinueLoadPaletteFront
+	ld d, PAL_HERO_XY
+.ContinueLoadPaletteFront
+	ld a, 2
+	ldh [rSVBK], a ;palette gender
 ELSE
 	ld d, PAL_REDMON
 ENDC

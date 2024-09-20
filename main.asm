@@ -42,7 +42,7 @@ INCLUDE "engine/events/display_pokedex.asm"
 ; Hooks for color hack
 INCLUDE "color/cable_club.asm"
 INCLUDE "color/oak_intro.asm"
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 INCLUDE "color/load_hp_and_exp_bar.asm"
 ENDC
 
@@ -109,7 +109,7 @@ INCLUDE "engine/math/random.asm"
 
 INCLUDE "color/status_screen.asm"
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 EXPBarGraphics:  INCBIN "gfx/gs/exp_bar.2bpp"
 EXPBarGraphicsEnd:
 ENDC
@@ -122,12 +122,12 @@ INCLUDE "engine/overworld/map_sprites.asm"
 INCLUDE "engine/overworld/emotion_bubbles.asm"
 INCLUDE "engine/events/evolve_trade.asm"
 INCLUDE "engine/battle/move_effects/substitute.asm"
-INCLUDE "engine/menus/pc.asm"
 
 
 SECTION "Play Time", ROMX
 
 INCLUDE "engine/play_time.asm"
+INCLUDE "engine/menus/pc.asm" ;moved from "BATTLE ENGINE 2" cuz gender thingies
 
 
 SECTION "Doors and Ledges", ROMX
@@ -273,6 +273,10 @@ INCLUDE "engine/events/hidden_objects/indigo_plateau_hq.asm"
 SECTION "Battle Engine 9", ROMX
 
 INCLUDE "engine/battle/experience.asm"
+INCLUDE "engine/items/tm_prices.asm"	;moved from bank1E for gender-thingies
+INCLUDE "engine/overworld/elevator.asm"	;moved from bank1E for gender-thingies
+INCLUDE "engine/movie/evolution.asm"	;moved from bank1E for gender-thingies
+
 
 
 SECTION "Diploma", ROMX
@@ -284,7 +288,7 @@ SECTION "Trainer Sight", ROMX
 
 INCLUDE "engine/overworld/trainer_sight.asm"
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 INCLUDE "color/exp_bar.asm"
 ENDC
 
@@ -389,8 +393,6 @@ INCLUDE "gfx/fishing.asm"
 INCLUDE "data/moves/animations.asm"
 INCLUDE "data/battle_anims/subanimations.asm"
 INCLUDE "data/battle_anims/frame_blocks.asm"
-INCLUDE "engine/movie/evolution.asm"
-INCLUDE "engine/overworld/elevator.asm"
-INCLUDE "engine/items/tm_prices.asm"
+
 
 INCLUDE "color/animations.asm"

@@ -29,12 +29,12 @@ EvolveTradeMon:
 	;ld a, [wInGameTradeReceiveMonName + 1]
 	;cp "P"
 	;ret nz
-	ret
+	;ret
 
-.ok
-	ld a, [wPartyCount]
-	dec a
-	ld [wWhichPokemon], a
+;.ok
+;	ld a, [wPartyCount]
+;	dec a
+;	ld [wWhichPokemon], a
 	ld a, $1
 	ld [wForceEvolution], a
 	ld a, LINK_STATE_TRADING

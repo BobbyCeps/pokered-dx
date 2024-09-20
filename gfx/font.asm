@@ -9,7 +9,7 @@ ENDC
 
 ABTiles: INCBIN "gfx/font/AB.2bpp"
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 HpBarAndStatusGraphics:: INCBIN "gfx/gs/gen2_hp_bar_and_status.2bpp"
 HpBarAndStatusGraphicsEnd::
 

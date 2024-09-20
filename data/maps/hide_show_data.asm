@@ -251,6 +251,7 @@ MapHSPointers:
 	dw NoHS
 	dw NoHS
 	dw NoHS
+	dw NoHS ; Trader house in celadon
 	assert_table_length NUM_MAPS
 	dw -1 ; end
 

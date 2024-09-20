@@ -95,7 +95,7 @@ DisplayNamingScreen:
 
 	call LoadHpBarAndStatusTilePatterns
 	call LoadEDTile
-	farcall LoadMonPartySpriteGfx
+;	farcall LoadMonPartySpriteGfx / REMOVED for unique party icon sprite
 	hlcoord 0, 4
 	ld b, 9
 	ld c, 18
@@ -120,7 +120,10 @@ DisplayNamingScreen:
 	ld [wAnimCounter], a
 .selectReturnPoint
 	call PrintAlphabet
-	call GBPalNormal
+;	call GBPalNormal
+	ld a, %11100100 ; 3210 /Party icon sprite color
+	ldh [rBGP], a
+	ldh [rOBP0], a
 .ABStartReturnPoint
 	ld a, [wNamingScreenSubmitName]
 	and a
@@ -467,7 +470,8 @@ PrintNamingText:
 	ld a, [wcf91]
 	ld [wMonPartySpriteSpecies], a
 	push af
-	farcall WriteMonPartySpriteOAMBySpecies
+;	farcall WriteMonPartySpriteOAMBySpecies / REMOVED for unique party icon sprite
+	farcall LoadSinglePartyMonSprite ; +
 	pop af
 	ld [wd11e], a
 	call GetMonName

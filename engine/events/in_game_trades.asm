@@ -57,6 +57,9 @@ DoInGameTradeDialogue:
 	jr nz, .printText
 	call InGameTrade_DoTrade
 	jr c, .printText
+	ld a, [wInGameTradeGiveMonSpecies] ; trade_evolve
+	cp NO_MON ; trade_evolve
+	jr z, .printText ; trade_evolve
 	ld hl, TradedForText
 	call PrintText
 .printText
@@ -98,22 +101,30 @@ InGameTrade_DoTrade:
 	ld a, $1
 	jp c, .tradeFailed ; jump if the player didn't select a pokemon
 	ld a, [wInGameTradeGiveMonSpecies]
+	cp NO_MON ; trade_evolve
+	jr z, .skip_mon_check ; trade_evolve
 	ld b, a
 	ld a, [wcf91]
 	cp b
 	ld a, $2
-	jr nz, .tradeFailed ; jump if the selected mon's species is not the required one
+	; jr nz, .tradeFailed  jump if the selected mon's species is not the required one
+	jp nz, .tradeFailed ; jump if the selected mon's species is not the required one
+.skip_mon_check ; trade evolve
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMon1Level
 	ld bc, wPartyMon2 - wPartyMon1
 	call AddNTimes
 	ld a, [hl]
 	ld [wCurEnemyLVL], a
+	ld a, [wInGameTradeGiveMonSpecies] ; trade evolve
+	cp NO_MON ; trade evolve
+	jr z, .skip_flag_set ; trade evolve
 	ld hl, wCompletedInGameTradeFlags
 	ld a, [wWhichTrade]
 	ld c, a
 	ld b, FLAG_SET
 	predef FlagActionPredef
+.skip_flag_set ; trade evolve
 	ld hl, ConnectCableText
 	call PrintText
 	ld a, [wWhichPokemon]
@@ -121,7 +132,14 @@ InGameTrade_DoTrade:
 	ld a, [wCurEnemyLVL]
 	push af
 	call LoadHpBarAndStatusTilePatterns
+	ld a, [wInGameTradeGiveMonSpecies] ; trade evolve
+	cp NO_MON	; trade evolve
+	jr nz, .normal_in_game_trade_data	; trade evolve
+	call TradeSelf_PrepareTradeData	; trade evolve
+	jr .self_trade_data ; trade evolve
+.normal_in_game_trade_data ; trade evolve
 	call InGameTrade_PrepareTradeData
+.self_trade_data ; trade evolve
 	predef InternalClockTradeAnim
 	pop af
 	ld [wCurEnemyLVL], a
@@ -130,13 +148,22 @@ InGameTrade_DoTrade:
 	ld a, [wInGameTradeReceiveMonSpecies]
 	ld [wcf91], a
 	xor a
-	ld [wMonDataLocation], a ; not used
+	; ld [wMonDataLocation], a  not used
+	push af	;trade evolve
+	ld a, [wInGameTradeGiveMonSpecies]	;trade evolve
+	cp NO_MON	;trade evolve
+	jr z, .skip_swap_mons	;trade evolve
+	pop af	;trade evolve
 	ld [wRemoveMonFromBox], a
 	call RemovePokemon
 	ld a, $80 ; prevent the player from naming the mon
 	ld [wMonDataLocation], a
 	call AddPartyMon
 	call InGameTrade_CopyDataToReceivedMon
+	ld a, [wPartyCount] ;trade evolve
+	dec a	;trade evolve
+	ld [wWhichPokemon], a	;trade evolve
+.skip_swap_mons
 	callfar EvolveTradeMon
 	call ClearScreen
 	call InGameTrade_RestoreScreen
@@ -161,9 +188,21 @@ InGameTrade_RestoreScreen:
 	call DelayFrames
 	farjp LoadWildData
 
+TradeSelf_PrepareTradeData: ;trade evolve
+	ld a, [wWhichPokemon]
+	ld hl, wPartySpecies
+	ld b, 0
+	ld c, a
+	add hl, bc
+	ld a, [hl]
+	ld [wTradedPlayerMonSpecies], a
+	ld [wInGameTradeReceiveMonSpecies], a
+	ld hl, wTradedPlayerMonSpecies
+	jr InGameTrade_PrepareTradeData.loaded_self_trade_instead
 InGameTrade_PrepareTradeData:
 	ld hl, wTradedPlayerMonSpecies
 	ld a, [wInGameTradeGiveMonSpecies]
+.loaded_self_trade_instead ;trade evolve
 	ld [hli], a ; wTradedPlayerMonSpecies
 	ld a, [wInGameTradeReceiveMonSpecies]
 	ld [hl], a ; wTradedEnemyMonSpecies
@@ -237,6 +276,7 @@ InGameTradeTextPointers:
 	dw TradeTextPointers1
 	dw TradeTextPointers2
 	dw TradeTextPointers3
+	dw TradeTextPointers4 ;trade evolve
 
 TradeTextPointers1:
 	dw WannaTrade1Text
@@ -258,6 +298,14 @@ TradeTextPointers3:
 	dw WrongMon3Text
 	dw Thanks3Text
 	dw AfterTrade3Text
+
+;trade evolve
+TradeTextPointers4: 
+	dw WannaTrade4Text
+	dw NoTrade4Text
+	dw WrongMon1Text
+	dw Thanks4Text
+	dw AfterTrade1Text
 
 ConnectCableText:
 	text_far _ConnectCableText
@@ -327,4 +375,17 @@ Thanks3Text:
 
 AfterTrade3Text:
 	text_far _AfterTrade3Text
+	text_end
+
+;trade evolve
+WannaTrade4Text:
+	text_far _WannaTrade4Text
+	text_end
+	
+NoTrade4Text:
+	text_far _NoTrade4Text
+	text_end
+	
+Thanks4Text:
+	text_far _Thanks4Text
 	text_end

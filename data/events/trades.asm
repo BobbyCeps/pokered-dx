@@ -16,4 +16,5 @@ TradeMons:
 	db RAICHU,     ELECTRODE, TRADE_DIALOGSET_EVOLUTION, "KOURJUS@@@@"
 	db VENONAT,    TANGELA,   TRADE_DIALOGSET_HAPPY,     "BIGOUDI@@@@"
 	db NIDORAN_M,  NIDORAN_F, TRADE_DIALOGSET_HAPPY,     "FABI@@@@@@@"
+	db NO_MON,     NO_MON, 	  TRADE_DIALOGSET_SELF,   	 "Unseen@@@@@" ; trade_evolve
 	assert_table_length NUM_NPC_TRADES

@@ -1828,7 +1828,7 @@ DrawPlayerHUDAndHPBar:
 	ld [hl], $73
 	ld de, wBattleMonNick
 	hlcoord 10, 7
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	call PlaceString ; Note: "CenterMonName" not called to be consistent with gen 2
 	call PrintEXPBarAt1711
 ELSE
@@ -1889,12 +1889,37 @@ DrawEnemyHUDAndHPBar:
 	hlcoord 0, 0
 	lb bc, 4, 12
 	call ClearScreenArea
-	callfar PlaceEnemyHUDTiles
+	callfar PlaceEnemyHUDTiles	
+	ld a, [wIsInBattle]	    ; check battle type
+	dec a 					; if a is 0 then its trainer battle
+	jr  nz, .continueDraw   ; go to normal routine
+	;============================== start of code to add the caught symbol
+	push hl
+	ld a, [wEnemyMonSpecies2]
+	ld [wd11e], a
+	ld hl, IndexToPokedex
+	ld b, BANK(IndexToPokedex)
+	call Bankswitch
+	ld a, [wd11e]
+	dec a
+	ld c, a
+	ld b, FLAG_TEST
+	ld hl, wPokedexOwned
+	predef FlagActionPredef
+	ld a, c
+	and a
+	jr z, .notOwned
+	coord hl, 1, 1 ; horizontal/vertical
+	ld [hl], $72 ; replace this with your Poké Ball icon or other character
+	.notOwned
+	pop hl
+	;============================== end of new code
+.continueDraw
 	ld de, wEnemyMonNick
 	hlcoord 1, 0
 	call CenterMonName
 	call PlaceString
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 	hlcoord 6, 1
 ELSE
 	hlcoord 4, 1
@@ -6341,16 +6366,29 @@ SwapPlayerAndEnemyLevels:
 ; loads either red back pic or old man back pic
 ; also writes OAM data and loads tile patterns for the Red or Old Man back sprite's head
 ; (for use when scrolling the player sprite and enemy's silhouettes on screen)
-LoadPlayerBackPic:
-	ld a, [wBattleType]
-	dec a ; is it the old man tutorial?
-	ld de, RedPicBack
-	jr nz, .next
-	ld de, OldManPicBack
+ LoadPlayerBackPic:
+    ld a, [wBattleType]
+    dec a
+    ld de, OldManPicBack
+    jr z, .next
+    ld a, [wPlayerGender]
+    and a
+    jr z, .RedBack
+    cp a, 2            ; check if enby
+    jr z, .YellowBack
+    ld de, GreenPicBack
+    jr .next
+.YellowBack
+    ld de, YellowPicBack
+    jr .next
+.RedBack
+    ld de, RedPicBack
 .next
-	ld a, BANK(RedPicBack)
-	ASSERT BANK(RedPicBack) == BANK(OldManPicBack)
-	call UncompressSpriteFromDE
+    ld a, BANK(RedPicBack)
+    ASSERT BANK(RedPicBack) == BANK(OldManPicBack)
+    ASSERT BANK(GreenPicBack) == BANK(OldManPicBack)
+    ASSERT BANK(YellowPicBack) == BANK(OldManPicBack)
+    call UncompressSpriteFromDE
 
 IF GEN_2_GRAPHICS
 	call LoadMonBackSpriteHook ; No pixelated backsprites
@@ -6610,6 +6648,7 @@ CalculateModifiedStat:
 	ret
 
 ApplyBadgeStatBoosts:
+	ret ; stat boost off
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	ret z ; return if link battle
@@ -7109,6 +7148,10 @@ LoadMonBackSpriteHook:
 	ld de, vBackPic
 	ld c, a
 	jp LoadUncompressedSpriteData
+	
+ENDC
+
+IF GEN_2_GRAPHICS_HUD
 
 PrintEXPBarAt1711:
 	coord de, 17, 11

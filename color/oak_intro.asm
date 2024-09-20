@@ -13,6 +13,14 @@ GetRedPalID:
 	call ClearScreen
 IF GEN_2_GRAPHICS
 	ld a, PAL_HERO
+	ld a, [wPlayerGender] 	; load gender
+	and a 
+	jr z, .continueRedPalID
+	cp 1
+	ld a, PAL_HERO_F
+	jr z,.continueRedPalID
+	ld a, PAL_HERO_XY
+.continueRedPalID
 ELSE
 	ld a, PAL_REDMON
 ENDC

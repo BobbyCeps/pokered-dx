@@ -73,6 +73,12 @@ ENDC
 	ld a, [wd732]
 	bit BIT_DEBUG_MODE, a
 	jp nz, .skipSpeech
+	ld hl, BoyGirlText  ; added to the same file as the other oak text
+	call PrintText     ; show this text
+	call BoyGirlChoice ; added routine at the end of this file
+	ld a, [wCurrentMenuItem]
+	ld [wPlayerGender], a ; store player's gender. 00 for boy, 01 for girl, 02 for enby
+	call ClearScreen ; clear the screen before resuming normal intro
 	ld de, ProfOakPic
 	lb bc, BANK(ProfOakPic), $00
 	call IntroDisplayPicCenteredOrUpperRight
@@ -95,6 +101,19 @@ ENDC
 	call GetRedPalID ; HAX
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $00
+	ld a, [wPlayerGender] 	; load gender
+	and a      				; check gender - and a is equivalent to `cp a, 0` (but faster)
+					; if a=0->gender=male, ergo jump to the vanilla part of the code
+	jr z, .ContinueWithOakIntro1
+	cp a, 2					; check gender: if a=2->gender=enby, jump to the yellow subroutine, otherwise continue below
+	jp z, .LoadYellowPicFront1
+	ld de, GreenPicFront
+	lb bc, BANK(GreenPicFront), $00
+	jr .ContinueWithOakIntro1
+.LoadYellowPicFront1
+	ld de, YellowPicFront
+	lb bc, BANK(YellowPicFront), $00
+.ContinueWithOakIntro1:
 	call IntroDisplayPicCenteredOrUpperRight
 	call MovePicLeft
 	ld hl, IntroducePlayerText
@@ -114,6 +133,16 @@ ENDC
 	call GetRedPalID ; HAX
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $00
+	ld a, [wPlayerGender] ; check gender
+	cp a, 2
+	jp z, .LoadYellowPicFront2
+	ld de, GreenPicFront
+	lb bc, BANK(GreenPicFront), $00
+	jr .ContinueWithOakIntro2
+.LoadYellowPicFront2
+	ld de, YellowPicFront
+	lb bc, BANK(YellowPicFront), $00
+.ContinueWithOakIntro2:
 	call IntroDisplayPicCenteredOrUpperRight
 	call GBFadeInFromWhite
 	ld a, [wd72d]
@@ -134,6 +163,19 @@ ENDC
 	ld de, RedSprite
 	ld hl, vSprites
 	lb bc, BANK(RedSprite), $0C
+	ld a, [wPlayerGender] ; check gender
+	and a      ; check gender -> if male, jump to vanilla code
+	jr z, .ContinueWithOakIntro3
+	cp a, 2
+	jp z, .LoadYellowPicFront3
+	ld de, GreenSprite
+	lb bc, BANK(GreenSprite), $0C
+	jr .ContinueWithOakIntro3
+.LoadYellowPicFront3
+	ld de, YellowSprite
+	lb bc, BANK(YellowSprite), $0C
+.ContinueWithOakIntro3:
+	ld hl,vSprites
 	call CopyVideoData
 	ld de, ShrinkPic1
 	lb bc, BANK(ShrinkPic1), $00
@@ -187,6 +229,10 @@ IntroduceRivalText:
 	text_end
 OakSpeechText3:
 	text_far _OakSpeechText3
+	text_end
+	
+BoyGirlText: ; This is new so we had to add a reference to get it to compile
+	text_far _BoyGirlText
 	text_end
 
 FadeInIntroPic:
@@ -250,3 +296,38 @@ IntroDisplayPicCenteredOrUpperRight:
 	xor a
 	ldh [hStartTileID], a
 	predef_jump CopyUncompressedPicToTilemap
+
+; displays boy/girl choice
+BoyGirlChoice::
+	call SaveScreenTilesToBuffer1
+	jr DisplayBoyGirlNoChoice
+
+DisplayBoyGirlNoChoice::
+	ld a, BOY_GIRL_NO
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	ld hl, wTopMenuItemY
+	ld a, 7
+	ld [hli], a ; top menu item Y
+	ld a, 14
+	ld [hli], a ; top menu item X
+	xor a
+	ld [hli], a ; current menu item ID
+	inc hl
+	ld a, $2
+	ld [hli], a ; wMaxMenuItem
+	ld a, B_BUTTON | A_BUTTON
+	ld [hli], a ; wMenuWatchedKeys
+	xor a
+	ld [hl], a ; wLastMenuItem
+	call HandleMenuInput
+	bit BIT_B_BUTTON, a
+	jr nz, .defaultOption ; if B was pressed, assign enby
+; A was pressed
+	call PlaceUnfilledArrowMenuCursor
+	ld a, [wCurrentMenuItem]
+	jp LoadScreenTilesFromBuffer1
+.defaultOption
+	ld a, $02
+	ld [wCurrentMenuItem], a
+	jp LoadScreenTilesFromBuffer1

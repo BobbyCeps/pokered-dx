@@ -1219,3 +1219,9 @@ INCLUDE "data/maps/headers/AgathasRoom.asm"
 INCLUDE "scripts/AgathasRoom.asm"
 INCLUDE "data/maps/objects/AgathasRoom.asm"
 AgathasRoom_Blocks: INCBIN "maps/AgathasRoom.blk"
+
+; new interior map for trader in celadon city
+INCLUDE "data/maps/headers/CeladonTradeHouse.asm"
+INCLUDE "scripts/CeladonTradeHouse.asm"
+INCLUDE "data/maps/objects/CeladonTradeHouse.asm"
+CeladonTradeHouse_Blocks: INCBIN "maps/CeladonTradeHouse.blk"
