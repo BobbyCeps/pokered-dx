@@ -35,7 +35,7 @@ Trade_InitGameboyTransferGfx_ColorHook:
 	; Set the palettes to use for the pokemon sprites
 	ld b, $30
 	ld hl, W2_SpritePaletteMap
-	ld a, 2 ; ATK_PAL_RED
+	ld a, 0 ; ATK_PAL_GREY
 .loop
 	ld [hl], a
 	set 6, l
@@ -45,9 +45,13 @@ Trade_InitGameboyTransferGfx_ColorHook:
 	jr nz, .loop
 
 	; Set the palettes for the "glow" behind the pokemon
+	; Use the "purple" palette to match the exact color of the link cable.
+	ld d, PAL_MEWMON
+	ld e, ATK_PAL_PURPLE
+	farcall LoadSGBPalette_Sprite
 	ld hl, W2_SpritePaletteMap + $38
 	ld b, 6
-	ld a, 2 ; ATK_PAL_RED
+	ld a, 7 ; ATK_PAL_PURPLE
 .loop2
 	ld [hl], a
 	set 6, l
@@ -55,6 +59,10 @@ Trade_InitGameboyTransferGfx_ColorHook:
 	res 6, l
 	dec b
 	jr nz, .loop2
+
+	; Make the Circle around the pokemon flash with the link cable
+	ld a, 4
+	ld [W2_UseOBP1], a
 
 	xor a
 	ldh [rSVBK], a
