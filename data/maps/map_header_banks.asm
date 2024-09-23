@@ -249,5 +249,6 @@ MapHeaderBanks::
 	db BANK(LoreleisRoom_h)
 	db BANK(BrunosRoom_h)
 	db BANK(AgathasRoom_h)
-	db BANK(CeladonTradeHouse_h) ;new map trader
+	db BANK(CeladonTradeHouse_h) ;new house trader
+	db BANK(FuchsiaMoveHouse_h)  ;new house move deleter/relearner
 	assert_table_length NUM_MAPS

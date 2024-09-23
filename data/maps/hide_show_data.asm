@@ -252,6 +252,7 @@ MapHSPointers:
 	dw NoHS
 	dw NoHS
 	dw NoHS ; Trader house in celadon
+	dw NoHS ; move deleter/relearner house in fuchsia city
 	assert_table_length NUM_MAPS
 	dw -1 ; end
 

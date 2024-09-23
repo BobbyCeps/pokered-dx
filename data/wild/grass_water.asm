@@ -249,6 +249,7 @@ WildDataPointers:
 	dw NothingWildMons
 	dw NothingWildMons
 	dw NothingWildMons ;trader house in celadon
+	dw NothingWildMons ;move deleter/relearner house in fuchsia city
 	assert_table_length NUM_MAPS
 	dw -1 ; end
 
