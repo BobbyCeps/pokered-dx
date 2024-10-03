@@ -42,7 +42,11 @@ SaffronGymSabrinaPostBattle:
 	jp z, SaffronGymResetScripts
 	ld a, D_RIGHT | D_LEFT | D_UP | D_DOWN
 	ld [wJoyIgnore], a
-
+	ld a, [wBeatGymFlags] ;rematch
+	bit BIT_EARTHBADGE, a
+	and a
+	jp nz, SabrinaRematchPostBattle ;fin rematch
+	
 SaffronGymSabrinaReceiveTM46Script:
 	ld a, TEXT_SAFFRONGYM_SABRINA_MARSH_BADGE_INFO
 	ldh [hSpriteIndexOrTextID], a
@@ -85,7 +89,8 @@ SaffronGym_TextPointers:
 	dw_const SaffronGymSabrinaMarshBadgeInfoText, TEXT_SAFFRONGYM_SABRINA_MARSH_BADGE_INFO
 	dw_const SaffronGymSabrinaReceivedTM46Text,   TEXT_SAFFRONGYM_SABRINA_RECEIVED_TM46
 	dw_const SaffronGymSabrinaTM46NoRoomText,     TEXT_SAFFRONGYM_SABRINA_TM46_NO_ROOM
-
+	dw_const SaffronGymRematchPostBattleText, 	  TEXT_SAFFRONGYM_REMATCH_POST_BATTLE
+	
 SaffronGymTrainerHeaders:
 	def_trainers 2
 SaffronGymTrainerHeader0:
@@ -104,6 +109,12 @@ SaffronGymTrainerHeader6:
 	trainer EVENT_BEAT_SAFFRON_GYM_TRAINER_6, 3, SaffronGymYoungster4BattleText, SaffronGymYoungster4EndBattleText, SaffronGymYoungster4AfterBattleText
 	db -1 ; end
 
+SabrinaRematchPostBattle: ;rematch
+	ld a, TEXT_SAFFRONGYM_REMATCH_POST_BATTLE
+	ldh [hSpriteIndexOrTextID], a
+	call DisplayTextID
+	jp SaffronGymResetScripts ;fin rematch
+
 SaffronGymSabrinaText:
 	text_asm
 	CheckEvent EVENT_BEAT_SABRINA
@@ -114,6 +125,10 @@ SaffronGymSabrinaText:
 	call DisableWaitingAfterTextDisplay
 	jr .done
 .afterBeat
+	ld a, [wBeatGymFlags] ;rematch
+	bit BIT_EARTHBADGE, a
+	and a
+	jr nz, .SabrinaRematch ;fin rematch
 	ld hl, .PostBattleAdviceText
 	call PrintText
 	jr .done
@@ -132,6 +147,30 @@ SaffronGymSabrinaText:
 	call InitBattleEnemyParameters
 	ld a, $6
 	ld [wGymLeaderNo], a
+	jr .endBattle ;rematch
+.SabrinaRematch
+	ld hl, .PreBattleRematch1Text
+	call PrintText
+	call YesNoChoice
+	ld a, [wCurrentMenuItem]
+	and a
+	jr nz, .refused
+	ld hl, .PreBattleRematch2Text
+	call PrintText
+	call Delay3
+	ld a, OPP_SABRINA
+	ld [wCurOpponent], a
+	ld a, 2
+	ld [wTrainerNo], a
+	ld a, $4 ; new script
+	ld [wPewterGymCurScript], a
+	ld [wCurMapScript], a
+	jr .endBattle
+.refused
+	ld hl, .PreBattleRematchRefusedText
+	call PrintText
+	jr .done
+.endBattle	;fin rematch
 	ld a, SCRIPT_SAFFRONGYM_SABRINA_POST_BATTLE
 	ld [wSaffronGymCurScript], a
 .done
@@ -150,6 +189,19 @@ SaffronGymSabrinaText:
 .PostBattleAdviceText:
 	text_far _SaffronGymSabrinaPostBattleAdviceText
 	text_end
+
+.PreBattleRematch1Text: ;rematch
+	text_far _SaffronGymRematchPreBattle1Text
+	text_end
+.PreBattleRematchRefusedText:
+	text_far _GymRematchRefusedText
+	text_end
+.PreBattleRematch2Text:
+	text_far _SaffronGymPreRematchBattle2Text
+	text_end
+SaffronGymRematchPostBattleText:
+	text_far _SaffronGymRematchPostBattleText
+	text_end	;rematch
 
 SaffronGymSabrinaMarshBadgeInfoText:
 	text_far _SaffronGymSabrinaMarshBadgeInfoText
