@@ -594,6 +594,23 @@ SpritePaletteAssignments: ; Characters on the overworld
 
 	; 0x3c: SPRITE_SEEL
 	db SPR_PAL_BLUE
+	
+;Start of custom sprites 
+; Gym Leaders
+	; SPRITE_BROCK
+	db SPR_PAL_BROWN
+	; SPRITE_MISTY
+	db SPR_PAL_ORANGE
+	; SPRITE_SURGE
+	db SPR_PAL_BROWN
+	; SPRITE_ERIKA
+	db SPR_PAL_GREEN
+	; SPRITE_KOGA2
+	db SPR_PAL_BLUE
+	; SPRITE_SABRINA
+	db SPR_PAL_BLUE
+	; SPRITE_BLAINE
+	db SPR_PAL_BROWN
 
 	; 0x3d: SPRITE_BALL
 	db SPR_PAL_ORANGE

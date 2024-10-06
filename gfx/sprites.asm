@@ -75,3 +75,14 @@ AgathaSprite::           INCBIN "gfx/sprites/agatha.2bpp"
 BrunoSprite::            INCBIN "gfx/sprites/bruno.2bpp"
 LoreleiSprite::          INCBIN "gfx/sprites/lorelei.2bpp"
 SeelSprite::             INCBIN "gfx/sprites/seel.2bpp"
+
+SECTION "NPC Sprites 3", ROMX
+
+; Gym Leaders
+BrockSprite::            INCBIN "gfx/sprites/leaders/brock.2bpp"
+MistySprite::            INCBIN "gfx/sprites/leaders/misty.2bpp"
+SurgeSprite::            INCBIN "gfx/sprites/leaders/surge.2bpp"
+ErikaSprite::            INCBIN "gfx/sprites/leaders/erika.2bpp"
+Koga2Sprite::            INCBIN "gfx/sprites/leaders/koga.2bpp"
+SabrinaSprite::          INCBIN "gfx/sprites/leaders/sabrina.2bpp"
+BlaineSprite::           INCBIN "gfx/sprites/leaders/blaine.2bpp"
