@@ -70,9 +70,9 @@ ENDC
 	nop
 	nop
 	nop
-	ld a, [wd732]
-	bit BIT_DEBUG_MODE, a
-	jp nz, .skipSpeech
+	;ld a, [wd732]
+	;bit BIT_DEBUG_MODE, a
+	;jp nz, .skipSpeech
 	ld hl, BoyGirlText  ; added to the same file as the other oak text
 	call PrintText     ; show this text
 	call BoyGirlChoice ; added routine at the end of this file
@@ -134,15 +134,15 @@ ENDC
 	ld de, RedPicFront
 	lb bc, BANK(RedPicFront), $00
 	ld a, [wPlayerGender] ; check gender
-	cp a, 2
-	jp z, .LoadYellowPicFront2
+	and a 
+	jr z, .continueWithOakIntro3
+	cp 1
 	ld de, GreenPicFront
 	lb bc, BANK(GreenPicFront), $00
-	jr .ContinueWithOakIntro2
-.LoadYellowPicFront2
+	jr z, .continueWithOakIntro3
 	ld de, YellowPicFront
 	lb bc, BANK(YellowPicFront), $00
-.ContinueWithOakIntro2:
+.continueWithOakIntro3
 	call IntroDisplayPicCenteredOrUpperRight
 	call GBFadeInFromWhite
 	ld a, [wd72d]

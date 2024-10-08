@@ -104,6 +104,8 @@ LoadTilesetPalette:
 	ld b, a
 	ld a, 2
 	ldh [rSVBK], a
+	
+	
 
 	; Check for celadon mart roof (make the "outside" blue)
 	ld a, b
@@ -203,3 +205,41 @@ LoadTownPalette:
 	pop af
 	ldh [rSVBK], a ; Restore wram bank
 	ret
+
+; Check Map to replace Sprites palettes in special cases
+; Like for Gym Leaders or map Pokémons
+SprPalSwap:
+	push bc
+	ld de, 3
+	call IsInArray
+	jr nc, .noMapPaletteSwap ; jump if not in list
+.loopMapPalSwap
+	ld a, [hli]
+	push af
+	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+	ld e, a
+	push hl
+	farcall LoadMapPalette_Sprite
+	pop hl
+	pop af
+	cp [hl]
+	jr z, .loopMapPalSwap
+.noMapPaletteSwap
+	pop bc
+	ret
+
+	
+	
+MapSprPalSwapList:
+	; Map, new palette , palette slot to replace (0-7), palette type(0=BG, 1=Sprite)
+	db CELADON_GYM,           SPRITE_PAL_ERIKA,        5
+	db CERULEAN_GYM,          SPRITE_PAL_MISTY,        5
+	db CINNABAR_GYM,          SPRITE_PAL_BLAINE,       5
+	db FUCHSIA_GYM,           SPRITE_PAL_KOGA,         5
+	db PEWTER_GYM,            SPRITE_PAL_BROCK,        5
+	db SAFFRON_GYM,           SPRITE_PAL_SABRINA,      5
+	db VERMILION_GYM,         SPRITE_PAL_SURGE,        5
+	db VIRIDIAN_GYM,          SPRITE_PAL_GIOVANNI,     5
+	db -1
