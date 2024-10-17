@@ -663,8 +663,6 @@ BlaineData:
 	
 SabrinaData:
 	db $FF, 38, KADABRA, 37, MR_MIME, 38, VENOMOTH, 43, ALAKAZAM, 0
-; rematch
-	db $FF, 75, ALAKAZAM, 80, ONIX, 63, KABUTOPS, 62, GOLEM, 64, RHYDON, 64, AERODACTYL, 0
 
 GentlemanData:
 ; SS Anne 1F Rooms
