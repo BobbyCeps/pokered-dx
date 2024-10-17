@@ -44,6 +44,40 @@ _SaffronGymSabrinaPostBattleAdviceText::
 	cont "dons!"
 	done
 
+_SaffronGymRematchPreBattle1Text:: ;rematch
+	text "SABRI our last"
+	line "battle, my"
+	para "#MON have"
+	line "grown!"
+	para "ROCK-hard will"
+	line "meets peak skill"
+	cont "today!"
+	para "Ready for the"
+	line "rematch of a"
+	cont "lifetime?"
+	done
+;_GymRematchRefusedText::
+;	text "Maybe some other"
+;	line "time."
+;	done
+_SaffronGymPreRematchBattle2Text::
+	text "SABRIsharpen!"
+	line "Let's battle!"
+	done
+_SaffronGymRematchPostBattleText::
+	text "SABRINA"
+	para "Your strength"
+	line "is unmatched!"
+	para "True to your"
+	line "title, CHAMPION."
+	para "Continue to lead"
+  line "#MON with"
+  cont "honor and"
+	cont "courage!"
+	para "New challenges"
+	line "await."
+	done ;rematch
+	
 _SaffronGymSabrinaMarshBadgeInfoText::
 	text "Avec le BADGE"
 	line "MARAIS, les"
