@@ -249,5 +249,6 @@ MapHeaderPointers::
 	dw LoreleisRoom_h
 	dw BrunosRoom_h
 	dw AgathasRoom_h
-	dw CeladonTradeHouse_h ;new map trader
+	dw CeladonTradeHouse_h ;new house trader
+	dw FuchsiaMoveHouse_h ;new house move deleter/relearner
 	assert_table_length NUM_MAPS
