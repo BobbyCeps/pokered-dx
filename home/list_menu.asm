@@ -132,14 +132,6 @@ DisplayListMenuIDLoop::
 	call GetItemPrice
 	pop hl
 	ld a, [wListMenuID]
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;needed to make Mateo's move deleter/relearner work
-	cp a, MOVESLISTMENU
-	jr z, .skipStoringItemName
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 	cp ITEMLISTMENU
 	jr nz, .skipGettingQuantity
 ; if it's an item menu
@@ -151,8 +143,8 @@ DisplayListMenuIDLoop::
 	ld [wd0b5], a
 	ld a, BANK(ItemNames)
 	ld [wPredefBank], a
-	;call GetName 
-	;jr .storeChosenEntry
+	call GetName
+	jr .storeChosenEntry
 .pokemonList
 	ld hl, wPartyCount
 	ld a, [wListPointer]
@@ -166,13 +158,12 @@ DisplayListMenuIDLoop::
 .storeChosenEntry ; store the menu entry that the player chose and return
 	ld de, wcd6d
 	call CopyToStringBuffer
-.skipStoringItemName	;skip here if skipping storing item name
 	ld a, CHOSE_MENU_ITEM
 	ld [wMenuExitMethod], a
 	ld a, [wCurrentMenuItem]
 	ld [wChosenMenuItem], a
 	xor a
-	ld [hJoy7], a ; joypad state update flag
+	ldh [hJoy7], a ; joypad state update flag
 	ld hl, wd730
 	res 6, [hl] ; turn on letter printing delay
 	jp BankswitchBack

@@ -1225,12 +1225,3 @@ INCLUDE "data/maps/headers/CeladonTradeHouse.asm"
 INCLUDE "scripts/CeladonTradeHouse.asm"
 INCLUDE "data/maps/objects/CeladonTradeHouse.asm"
 CeladonTradeHouse_Blocks: INCBIN "maps/CeladonTradeHouse.blk"
-
-;new interior map for move deleter/relearner in Fuchsia city
-INCLUDE "data/maps/headers/FuchsiaMoveHouse.asm"
-INCLUDE "scripts/FuchsiaMoveHouse.asm"
-INCLUDE "data/maps/objects/FuchsiaMoveHouse.asm"
-FuchsiaMoveHouse_Blocks: INCBIN "maps/FuchsiaMoveHouse.blk"
-; Mateo's move relearner/deleter files
-INCLUDE "scripts/move_deleter.asm"
-INCLUDE "scripts/move_relearner.asm"
