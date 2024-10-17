@@ -27,37 +27,3 @@ _FuchsiaGymKogaReceivedSoulBadgeText::
 	line "car voici..."
 	cont "le BADGE AME!"
 	prompt
-
-_FuchsiaGymRematchPreBattle1Text:: ;rematch
-	text "KOGA our last"
-	line "battle, my"
-	para "#MON have"
-	line "grown!"
-	para "ROCK-hard will"
-	line "meets peak skill"
-	cont "today!"
-	para "Ready for the"
-	line "rematch of a"
-	cont "lifetime?"
-	done
-;_GymRematchRefusedText::
-;	text "Maybe some other"
-;	line "time."
-;	done
-_FuchsiaGymPreRematchBattle2Text::
-	text "KOGA sharpen!"
-	line "Let's battle!"
-	done
-_FuchsiaGymRematchPostBattleText::
-	text "KOGAA!"
-	para "Your strength"
-	line "is unmatched!"
-	para "True to your"
-	line "title, CHAMPION."
-	para "Continue to lead"
-  line "#MON with"
-  cont "honor and"
-	cont "courage!"
-	para "New challenges"
-	line "await."
-	done

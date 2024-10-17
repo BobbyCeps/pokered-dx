@@ -77,40 +77,6 @@ _CinnabarGymBlaineTM38NoRoomText::
 	line "est plein!"
 	done
 
-_CinnabarGymRematchPreBattle1Text:: ;rematch
-	text "BLAINE our last"
-	line "battle, my"
-	para "#MON have"
-	line "grown!"
-	para "ROCK-hard will"
-	line "meets peak skill"
-	cont "today!"
-	para "Ready for the"
-	line "rematch of a"
-	cont "lifetime?"
-	done
-;_GymRematchRefusedText::
-;	text "Maybe some other"
-;	line "time."
-;	done
-_CinnabarGymPreRematchBattle2Text::
-	text "BLAINE sharpen!"
-	line "Let's battle!"
-	done
-_CinnabarGymRematchPostBattleText::
-	text "BLAIINE!"
-	para "Your strength"
-	line "is unmatched!"
-	para "True to your"
-	line "title, CHAMPION."
-	para "Continue to lead"
-  line "#MON with"
-  cont "honor and"
-	cont "courage!"
-	para "New challenges"
-	line "await."
-	done	 ;rematch
-
 _CinnabarGymSuperNerd1BattleText::
 	text "Un #MON du"
 	line "feu, c'est chaud!"
