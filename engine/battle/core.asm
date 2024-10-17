@@ -1890,13 +1890,14 @@ DrawEnemyHUDAndHPBar:
 	lb bc, 4, 12
 	call ClearScreenArea
 	callfar PlaceEnemyHUDTiles	
-	ld a, [wIsInBattle]	    ; check battle type
+IF !GEN_2_GRAPHICS_HUD
+ld a, [wIsInBattle]	    ; check battle type
 	dec a 					; if a is 0 then its trainer battle
 	jr  nz, .continueDraw   ; go to normal routine
 	;============================== start of code to add the caught symbol
 	push hl
 	ld a, [wEnemyMonSpecies2]
-	ld [wd11e], a
+	ld [wd11e], a ;
 	ld hl, IndexToPokedex
 	ld b, BANK(IndexToPokedex)
 	call Bankswitch
@@ -1910,10 +1911,11 @@ DrawEnemyHUDAndHPBar:
 	and a
 	jr z, .notOwned
 	coord hl, 1, 1 ; horizontal/vertical
-	ld [hl], $72 ; replace this with your Poké Ball icon or other character
+	ld [hl], $E9 ; replace this with your Poké Ball icon or other character
 	.notOwned
 	pop hl
 	;============================== end of new code
+ENDC
 .continueDraw
 	ld de, wEnemyMonNick
 	hlcoord 1, 0

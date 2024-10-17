@@ -25,7 +25,7 @@ LoadPartyPokeballGfx:
 	jp LoadPartyPokeballGfx_orig
 
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 
 PlayerHUDHAX:
 	ld hl, PlayerHUDTileMap
@@ -61,3 +61,4 @@ EnemyHUDHAX:
 	jp EnemyHUDUpdateDone
 
 ENDC
+
