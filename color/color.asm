@@ -728,6 +728,8 @@ SetPal_Overworld:
 
 ; Open pokemon menu
 SetPal_PartyMenu:
+
+	 CALL_INDIRECT LoadPartyMenuSpritePalettes
 	
 	ld a, 2
 	ldh [rSVBK], a
@@ -1002,9 +1004,9 @@ SetPal_OakIntro:
 SetPal_NameEntry:
 	ld a, 2
 	ldh [rSVBK], a
-	
+
 	CALL_INDIRECT LoadOverworldSpritePalettes
-	
+
 	CALL_INDIRECT ClearSpritePaletteMap
 
 	xor a

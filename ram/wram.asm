@@ -1924,11 +1924,7 @@ wPlayerCoins:: dw ; BCD
 wMissableObjectFlags:: flag_array $100
 wMissableObjectFlagsEnd::
 
-	ds 6
-	
-wPartySpritePaletteSlot::
-; saved copy of SPRITESTATEDATA1_PICTUREID
-wSavedSpritePictureID:: db
+	ds 7
 
 ; saved copy of SPRITESTATEDATA1_IMAGEINDEX (used for sprite facing/anim)
 wSavedSpriteImageIndex:: db
