@@ -1,5 +1,5 @@
 PokemonLogoGraphics: INCBIN "gfx/gs/new_pokemon_logo.2bpp"
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 FontGraphics:: INCBIN "gfx/gs/font.1bpp"
 FontGraphicsEnd::
 ELSE
@@ -37,7 +37,7 @@ GameFreakLogoGraphicsEnd:
 Unk9Graphic: INCBIN "gfx/unk_9.2bpp"
 Unk9GraphicEnd:
 
-IF GEN_2_GRAPHICS
+IF GEN_2_GRAPHICS_HUD
 TextBoxGraphics:: INCBIN "gfx/gs/text_box.2bpp"
 TextBoxGraphicsEnd::
 ELSE
