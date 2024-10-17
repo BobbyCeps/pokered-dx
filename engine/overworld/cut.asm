@@ -53,7 +53,7 @@ UsedCut:
 	res 6, [hl]
 	ld a, $ff
 	ld [wUpdateSpritesEnabled], a
-	farcall InitCutAnimOAM ; originally a call
+	call InitCutAnimOAM
 	ld de, CutTreeBlockSwaps
 	call ReplaceTreeTileBlock
 	call RedrawMapView
@@ -71,7 +71,7 @@ UsedCutText:
 	text_far _UsedCutText
 	text_end
 
-_InitCutAnimOAM: ; hooked in color/color.asm
+InitCutAnimOAM:
 	xor a
 	ld [wWhichAnimationOffsets], a
 	ld a, %11100100
@@ -121,16 +121,13 @@ LoadCutGrassAnimationTilePattern:
 WriteCutAnimationOAMBlock:
 	call GetCutAnimationOffsets
 	ld a, $9
-	ld de, .OAMBlock
+	ld de, CutAnimationTilesAndAttributes
 	jp WriteOAMBlock
 
-.OAMBlock:
-; tile ID, attributes
-	db $fc, OAM_OBP1 | 7 ; Uses palette 7 (animation)
-	db $fd, OAM_OBP1 | 7
-	db $fe, OAM_OBP1 | 7
-	db $ff, OAM_OBP1 | 7
-	
+CutAnimationTilesAndAttributes:
+	dbsprite  2, -1,  6,  4, $fd, OAM_OBP1 | 6
+	dbsprite  2, -1,  6,  6, $ff, OAM_OBP1 | 6 ; Uses palette 6 (green, specifically for cut trees)
+
 GetCutAnimationOffsets:
 	ld hl, wSpritePlayerStateData1YPixels
 	ld a, [hli] ; player's sprite screen Y position

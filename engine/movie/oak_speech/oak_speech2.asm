@@ -1,21 +1,10 @@
 ChoosePlayerName:
 	call OakSpeechSlidePicRight
-	ld a, [wPlayerGender] ; Added gender check
-	and a
-	jr z, .isBoy
-	cp 1
-	jr z, .isGirl
-	ld de, DefaultNamesEnby
-	call DisplayIntroNameTextBox
-	ld a, [wCurrentMenuItem]
-	and a
-	jr z, .customName
-	ld hl, DefaultNamesEnbyList
-	call GetDefaultName
-	ld de, wPlayerName
-	call OakSpeechSlidePicLeft
-	jr .done
-.isBoy
+	ld a, [wPlayerGender] ; load gender
+	cp a, $01
+	jr z, .AreGirl ; Skip to girl names if you are girl instead
+	cp a, $02
+	jr z, .AreEnby ; Skip to enby names if you are enby instead
 	ld de, DefaultNamesBoy
 	call DisplayIntroNameTextBox
 	ld a, [wCurrentMenuItem]
@@ -26,7 +15,7 @@ ChoosePlayerName:
 	ld de, wPlayerName
 	call OakSpeechSlidePicLeft
 	jr .done
-.isGirl
+.AreGirl ; Copy of the boy naming routine, just with girl's names
 	ld de, DefaultNamesGirl
 	call DisplayIntroNameTextBox
 	ld a, [wCurrentMenuItem]
@@ -36,7 +25,18 @@ ChoosePlayerName:
 	call GetDefaultName
 	ld de, wPlayerName
 	call OakSpeechSlidePicLeft
-	jr .done
+	jr .done ; End of new Girl Names routine
+.AreEnby ; Copy of the boy naming routine, just with enby's names
+	ld de, DefaultNamesEnby
+	call DisplayIntroNameTextBox
+	ld a, [wCurrentMenuItem]
+	and a
+	jr z, .customName
+	ld hl, DefaultNamesEnbyList
+	call GetDefaultName
+	ld de, wPlayerName
+	call OakSpeechSlidePicLeft
+	jr .done ; End of new Enby Names routine
 .customName
 	ld hl, wPlayerName
 	xor a ; NAME_PLAYER_SCREEN
@@ -50,15 +50,16 @@ ChoosePlayerName:
 	ld de, RedPicFront
 	ld b, BANK(RedPicFront)
 	ld a, [wPlayerGender] ; Added gender check
-	and a 
+	and a      ; Added gender check
 	jr z, .ContinueWithRoutine
-	cp a, 1
+	cp a, $02
+	jr z, .LoadYellowPicFront
 	ld de, GreenPicFront
 	ld b, BANK(GreenPicFront)
-	jr z, .ContinueWithRoutine
+.LoadYellowPicFront
 	ld de, YellowPicFront
 	ld b, BANK(YellowPicFront)
-.ContinueWithRoutine	
+.ContinueWithRoutine
 	call IntroDisplayPicCenteredOrUpperRight
 .done
 	ld hl, YourNameIsText

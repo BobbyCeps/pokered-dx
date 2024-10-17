@@ -17,9 +17,9 @@ DEF SPR_PAL_BLUE    EQU 1
 DEF SPR_PAL_GREEN   EQU 2
 DEF SPR_PAL_BROWN   EQU 3
 DEF SPR_PAL_HERO    EQU 4
-DEF SPR_PAL_EXTRA2  EQU 5
-DEF SPR_PAL_EXTRA3  EQU 6
-DEF SPR_PAL_ANIM    EQU 7
+DEF SPR_PAL_EMOJI   EQU 5
+DEF SPR_PAL_TREE    EQU 6
+DEF SPR_PAL_ROCK    EQU 7
 DEF SPR_PAL_RANDOM  EQU 8
 
 LoadOverworldSpritePalettes:
@@ -35,17 +35,16 @@ LoadOverworldSpritePalettes:
 	cp CAVERN
 	jr z, .gotPaletteList
 	; If it is the Pokemon Center, load different pals for the Heal Machine to flash
-;	ld hl, SpritePalettesPokecenter
-;	cp POKECENTER
-;	jr z, .gotPaletteList
+	ld hl, SpritePalettesPokecenter
+	cp POKECENTER
+	jr z, .gotPaletteList
 	; If not, load the normal Object Pals
 	ld hl, SpritePalettes
 .gotPaletteList
 	pop bc
 	ld a, b
 	ldh [rSVBK], a
-	call LoadSpritePaletteData
-	jr LoadSpecialOverworldSpritePalettes
+	jr LoadSpritePaletteData
 
 LoadAttackSpritePalettes:
 	ld hl, AttackSpritePalettes
@@ -68,32 +67,6 @@ LoadSpritePaletteData:
 	ld a, 1
 	ld [W2_ForceOBPUpdate], a
 
-	pop af
-	ldh [rSVBK], a
-	ret
-	
-LoadSpecialOverworldSpritePalettes:
-	ldh a, [rSVBK]
-	ld b, a
-	xor a
-	ldh [rSVBK], a
-	push bc
-; Check Tileset to load proper boulder dust palette if outside location
-	ld a, [wCurMapTileset]
-	and a ; check if OVERWORLD tileset
-	jr z, .isOutside
-	cp FOREST
-	jr z, .isOutside
-	cp PLATEAU
-	jr nz, .notOutside
-.isOutside
-	lb de, SPRITE_PAL_OUTDOORDUST, 7
-	farcall LoadMapPalette_Sprite
-.notOutside
-; Check map to load sprite specific palettes (list in color/loadpalettes.asm)	
-	ld a, [wCurMap]
-	ld hl, MapSprPalSwapList; loading list for identification and properties values
-	call SprPalSwap
 	pop af
 	ldh [rSVBK], a
 	ret
@@ -402,7 +375,7 @@ SpritePaletteAssignments: ; Characters on the overworld
 	db SPR_PAL_GREEN
 
 	; 0x17: SPRITE_GIOVANNI
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BLUE
 
 	; 0x18: SPRITE_ROCKET
 	db SPR_PAL_BROWN
@@ -518,28 +491,28 @@ SpritePaletteAssignments: ; Characters on the overworld
 ;Start of custom sprites 
 ; Gym Leaders
 	; SPRITE_BROCK
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BROWN
 	; SPRITE_MISTY
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_ORANGE
 	; SPRITE_SURGE
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BROWN
 	; SPRITE_ERIKA
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_GREEN
 	; SPRITE_KOGA2
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BLUE
 	; SPRITE_SABRINA
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BLUE
 	; SPRITE_BLAINE
-	db SPR_PAL_EXTRA2
+	db SPR_PAL_BROWN
 
 	; 0x3d: SPRITE_BALL
 	db SPR_PAL_ORANGE
 
 	; 0x3e: SPRITE_OMANYTE
-	db SPR_PAL_ANIM
+	db SPR_PAL_ROCK
 
 	; 0x3f: SPRITE_BOULDER
-	db SPR_PAL_EXTRA3
+	db SPR_PAL_ROCK
 
 	; 0x40: SPRITE_PAPER_SHEET
 	db SPR_PAL_BROWN
@@ -551,13 +524,13 @@ SpritePaletteAssignments: ; Characters on the overworld
 	db SPR_PAL_BROWN
 
 	; 0x43: SPRITE_SNORLAX
-	db SPR_PAL_BLUE
+	db SPR_PAL_ORANGE
 
 	; 0x44: SPRITE_OLD_AMBER_COPY
-	db SPR_PAL_ANIM
+	db SPR_PAL_ROCK
 
 	; 0x45: SPRITE_OLD_AMBER
-	db SPR_PAL_ANIM
+	db SPR_PAL_ROCK
 
 	; 0x46: SPRITE_LYING_OLD_MAN_UNUSED_1
 	db SPR_PAL_BROWN

@@ -11,20 +11,16 @@ ENDC
 
 GetRedPalID:
 	call ClearScreen
-IF GEN_2_GRAPHICS	
-	ld a, [wPlayerGender] 	; load gender
-	and a
-	jr z, .isBoyPalID
-	cp 1
-	jr z, .isGirlPalID
-	ld a, PAL_HERO_XY
-	jr .continuePalID
-.isBoyPalID
+IF GEN_2_GRAPHICS
 	ld a, PAL_HERO
-	jr .continuePalID
-.isGirlPalID
+	ld a, [wPlayerGender] 	; load gender
+	and a 
+	jr z, .continueRedPalID
+	cp 1
 	ld a, PAL_HERO_F
-.continuePalID
+	jr z,.continueRedPalID
+	ld a, PAL_HERO_XY
+.continueRedPalID
 ELSE
 	ld a, PAL_REDMON
 ENDC
